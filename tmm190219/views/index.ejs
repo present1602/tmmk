@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+<link rel="stylesheet" type="text/css" href="/css/postfilter.css">
+
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=85097723654db6cd517aed007a5a1371&libraries=services"></script>
+
+<title>Untitled Document</title>
+<script src="/js/common.js"></script>
+<script src="/js/postfilter.js"></script>
+
+</head>
+<body>
+
+<script>
+$(function(){
+	var $reqTable = $(".filter_table");
+	var $tableLen = $reqTable.length;
+	for(var i=0; i < $tableLen-1 ;i++){
+		$($reqTable[i]).css("border-bottom", "1px solid rgba(232,232,232,1)")
+	};
+})
+</script>
+
+<div class="wrap">
+    <div style="position:absolute; display:block;">
+        <input type="text" id="cur_lat" val="">
+        <input type="text" id="cur_lng" val="">
+    </div>
+    <div id="filter_layer">
+        <div id="filter_top">    
+            <img id="layer_close" src="images/layer_close.gif">
+            <p id="filter_title">상세검색</p>
+        </div>
+        <div id="filter_container">
+            <form name="filter_form" id="filter_form">
+                <table id="filter_table_category" class="filter_table">
+                    <p class="filter_table_title">일 종류</p>
+                    <tr>
+                        <td>
+                            <input type="radio" class="category" name="category" value="일일알바" id="ctitem1">
+                            <label class="category" for="ctitem1">일일알바</label>
+                        </td>
+                        <td>
+                            <input type="radio" class="category" name="category" value="심부름" id="ctitem2">
+                            <label class="category" for="ctitem2">심부름</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="radio" class="category" name="category" value="청소" id="ctitem3">
+                            <label class="category" for="ctitem3">청소</label>
+                        </td>
+                        <td>
+                            <input type="radio" class="category" name="category" value="일손도움" id="ctitem4">
+                            <label class="category" for="ctitem4">일손도움</label>
+                        </td>
+                    </tr>
+                    <tr>   
+                        <td><input type="radio" class="category" name="category" value="문서작업" id="ctitem5">
+                            <label class="category" for="ctitem5">문서작업</label>
+                        </td>
+                        <td><input type="radio" class="category" name="category" value="애견돌봄" id="ctitem6">
+                            <label class="category" for="ctitem6">애견돌봄</label>
+                        </td>
+                    </tr>
+                </table>
+
+                <table id="filter_table_pay" class="filter_table">
+                    <p class="filter_table_title">일당</p>
+                    <tr>
+                        <td>
+                            <input type="radio" class="pay" name="pay" value="20000" id="gt2">
+                            <label class="pay" for="gt2">2만원 이상</label>
+                        </td>
+                        <td>
+                            <input type="radio" class="pay" name="pay" value="50000" id="gt5">
+                            <label class="pay" for="gt5">5만원 이상</label>
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td>
+                            <input type="radio" class="pay" name="pay" value="100000" id="gt10">
+                            <label class="pay" for="gt10">10만원 이상</label>                        
+                        </td>
+                        <td>
+                            <input type="radio" class="pay" name="pay" value="200000" id="gt20">
+                            <label class="pay" for="gt20">20만원 이상</label>
+                        </td>
+                    </tr>
+                </table>
+                <table id="filter_table_gender" class="filter_table">
+                    <p class="filter_table_title">헬퍼 성별</p>
+                    <tr>
+                        <td>
+                            <input type="radio" class="gender" name="gender" value="남" id="male">
+                            <label class="gender" for="male">남자</label>                    
+                        </td>
+                        <td>
+                            <input type="radio" class="gender" name="gender" value="여" id="female">
+                            <label class="gender" for="female">여자</label>                    
+                        </td>
+                    </tr>
+                </table>
+                <div class="buttonbox">
+                    <input type="button" class="bottom_button" id="filter_submit" value="완료">
+                </div>
+            </form>
+        </div> 
+    </div> 
+
+    <div class="sidenav_layer" id="usidelayer">
+        <div class="sidenav_layerbox">
+            <p class="sidenav_close"><img src="images/backgray.gif" style="width:40px"></p>
+            <div class="sidenav_top">
+                <!-- <p class="user_pic"><img src="../public/images/profile_main.gif"></p> -->
+                <p class="user_pic" id="sidebar_userpic" 
+                    style="background-size:cover; width:60px;height:60px; 
+                        display:inline-block; width: 60px; position: absolute; left: 14px;
+                        border-radius:30px;">
+                </p>
+                <p class="welcom_message"><span class="user_id" id="sidebar_userid"></span>님 환영합니다</p>
+                <p id="sidebar_email"></p>
+            </div>
+            <ul>
+                <li class="sidenav_item"><a href="/chatlist">메세지</a></li>
+                <li class="sidenav_item"><a href="/posting">헬퍼요청</a></li>
+            </ul>
+        </div>
+    </div> 
+    
+
+	<div class="header">
+        <div class="in_header">
+            <p class="menu_icon" id="umenuicon"><img src="/images/menutop.gif"></p>
+            <h1 class="top_logo"><a href="">App Name</a></h1>
+        </div>
+        <nav class="main_nav">
+            <ul class="main_nav_list">
+                <li class="main_nav_item" id="nearby">내주변</li>
+                <li class="main_nav_item" id="map_search">지도에서 찾기</li>
+                <div class="clear">
+            </ul>
+        </nav>
+    </div>
+
+    <div class="container">
+        <div id="filterbox">
+            <span id="filter_button"><상세검색</span>
+        </div>		
+        <section id="main_section">	
+        </section>
+
+    </div>  <!-- 컨테이너 끝 --> 
+</div>  <!-- 랩 끝 -->
+
+<script>
+$(document).ready(function(){
+    $.ajax({
+        url:'/postlist'
+        ,method:'get'
+        ,success:function(data){
+            $("#main_section").html(data);            
+        }
+        ,error:function(err){
+            alert(JSON.stringify(err));
+        }
+    })
+})
+</script>
+
+</body>
+</html>

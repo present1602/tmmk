@@ -1,0 +1,25 @@
+*{margin:0; padding:0;text-decoration:none; list-style:none; font-family:나눔바른고딕;}
+/*회원가입*/
+#joinTitle{text-align:center; height:30px; padding-top:50px}
+#joinTitle p{font-size:2em;}
+#joinTable{border-collapse:collapse; width:100%;}
+
+#joinContent{margin:0 20px;}
+.table{width:100%; margin:12px 0; border-color:rgba(212,212,212,1); padding-bottom:10px;}
+.table input{width:100%; height:40px; text-indent:10px;}
+.gender_opt{font-size: 15px; padding-right: 10px;}
+
+#upload_pic{position:relative;height:60px; margin:10px 0;}
+#imgPreview{position:absolute; top:5px; left:10px}
+#profile_image{position:relative;left:70px; top:20px;height:60px}
+
+#joinSubmit{width:100%; height:40px; border:0px;
+background-color:rgba(255,97,0,1); color:white;}
+
+/*로그인*/
+#loginTitle{text-align:center; height:30px; padding-top:80px}
+#loginTitle p{font-size:2em;}
+#login_content{margin:0 15px; padding-top:20px;}
+#toSignup{margin:20px; text-align: right;}
+
+#login_fail_info{text-align: center; color: red;}

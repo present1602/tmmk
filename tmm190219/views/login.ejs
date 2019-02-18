@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<!-- <meta http-equiv="content-type" content="text/html; charset=utf-8" /> -->
+
+<meta name="viewport" content="width=device-width">
+<meta charset="utf-8" />
+<title>Untitled Document</title>
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+<link rel="stylesheet" type="text/css" href="/css/login.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=85097723654db6cd517aed007a5a1371&libraries=services"></script>
+
+<script src="js/common.js"></script>
+</head>
+
+<body>
+	<div class="wrap">
+		<form action="" id="loginForm">
+			<div id="loginTitle">
+				<p>TIME MARKET</p>
+			</div>
+			<div id = "login_content">
+				<table class ="table">
+					<tr>
+						<td><input type="text" name="uid" value="아이디"/></td>	
+					</tr>
+					<tr>
+						<td><input type="text" name="upw" value="비밀번호"/></td>
+					</tr>
+				</table>
+				<input type="button" class="bottom_button" id="loginButton" value="로그인"/>		
+				<div id = "toSignup">
+					<span style="margin-right:10px">이미 회원이신가요?</span> 
+					<a href="/signup" style="color:blue">회원가입</a>
+				</div>
+			</div>
+		</form>
+		<div id='login_fail_info'></div>
+	</div>
+<script>
+$("#loginButton").click(function(e){
+	e.preventDefault();
+	$.ajax({
+		url:'/login'
+		,method:"post"
+		,data:$("#loginForm").serializeArray()
+		,success:function(response){
+			console.log('response : ', response)
+			if(response.is_success=="success"){
+				var token = response.token;
+				console.log('response.token : ', response.token)
+				var decode = parseJwt(token);
+				console.log("jstr data : " + JSON.stringify(token))
+				document.cookie = "access_token="+token;
+				
+				localStorage.setItem("useremail", decode.data.useremail)
+				localStorage.setItem("userid", decode.data.id)
+				localStorage.setItem("userpic", decode.data.userpic)
+				localStorage.setItem("useroid", decode.data.oid)
+
+				location.href="/index.html"
+			}else if(response.is_success=="fail"){
+				var msg = response.message;
+				$("#login_fail_info").html(msg);
+			}
+			
+		}
+	})
+})
+
+function parseJwt (token) {
+	var base64Url = token.split('.')[1];
+	var base64 = base64Url.replace('-', '+').replace('_', '/');
+	return JSON.parse(window.atob(base64));
+};
+
+</script>
+</body>
+</html>	

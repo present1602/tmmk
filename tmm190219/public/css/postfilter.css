@@ -1,0 +1,29 @@
+/* 상세검색 레이어 */
+#filter_layer{ position:absolute; top:0;left:0; width:100%; display:none;  
+    z-index:111111; background-color:#fff;
+}
+#filter_container{background:#fff; 
+    position:absolute; width:100%; top:50px; overflow-y:auto; max-height:calc(100vh - 50px)
+}
+#filter_top{position:fixed; display:table-cell;vertical-align:middle; z-index:100; 
+    width:100%; max-width:840px; background:#fff;
+    border-bottom:2px solid rgba(241,241,241,1); height:50px;
+}
+#filter_title{font-size:13px; padding:6px; color:rgba(255,97,0,1);font-weight:bold; font-family:'dotum';
+    position:absolute;left:6%; top:21px; 
+    border-bottom:2px solid rgba(255,97,0,1); 
+}
+#layer_close{position:absolute; right:25px; top:12px; padding:5px; height:22px;}
+#filter_form{
+    margin-top:10px;  padding-bottom:55px; width:100%; 
+}  
+#filter_form table{width:100%; padding:6px;}
+.filter_table_title{margin: 17px 17px 0; font-size:13px; font-family:'dotum'; 
+  font-weight:bold; color:rgba(82,82,82,1)}
+
+#filter_form label{display: block;
+    background: rgba(241,241,241,1); margin: 6px; 
+    height: 35px; line-height: 35px; text-align: center;}
+#filter_form label.active{outline:1px solid rgba(255,97,0,1); color:rgba(255,97,0,1); font-weight:bold}
+#filter_form input[type="radio"]{display:none;}
+/* 상세검색 레이어 끝*/

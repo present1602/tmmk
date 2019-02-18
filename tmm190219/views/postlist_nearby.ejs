@@ -1,0 +1,74 @@
+
+    <ul id="req_list">
+        <% showList(posts) %>  
+    </ul>
+       
+    <%  
+        function getDistance(lat1,lng1,lat2,lng2) {
+            function deg2rad(deg) {
+                return deg * (Math.PI/180)
+            }
+            var R = 6371; // Radius of the earth in km
+            var dLat = (lat2-lat1)*(Math.PI/180);  // deg2rad below
+            var dLng = (lng2-lng1)*(Math.PI/180);
+            var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLng/2) * Math.sin(dLng/2);
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            var calcToKm = R * c; // Distance in km
+            var dVal = calcToKm.toFixed(1);
+            if(dVal<1){
+                dVal = (dVal*1000)+'m'
+            }else{
+                dVal = dVal+'km'
+            }
+            return dVal;
+        }
+    %>
+    <%  function showList(posts){ 
+            var curLat = coords[0];
+            var curLng = coords[1]; 
+            for (var i = 0; i < posts.length; i++) {
+                var postObjId = posts[i]._doc._id;
+                var curTitle = posts[i]._doc.title;
+                var curContents = posts[i]._doc.contents;
+                var pay = posts[i]._doc.pay;
+                var userName = posts[i]._doc.writer.name;
+                var category = posts[i]._doc.category;
+                var userPicFilename = posts[i]._doc.writer.pic.filename;
+                var userGender = posts[i]._doc.writer.gender;
+                var addr = posts[i]._doc.address.addr;
+                var helperGender = posts[i]._doc.helper_gender;
+                var postLat = posts[i]._doc.geometry.coordinates[1];
+                var postLng = posts[i]._doc.geometry.coordinates[0];
+                var distance = getDistance(curLat, curLng, postLat, postLng);
+    %>
+        <li>
+            <div class="user_info">
+                <p class="user_pic_postlist" style="width:48px;height:48px; margin:2px; 
+                position: relative; margin-bottom: 10px;
+                display:inline-block; position: relative; border-radius:30px;
+                background:url('/upload/<%=userPicFilename %>') no-repeat center center; background-size:cover">
+                </p>
+                <p class="user_name" style="font-size:11px"><%=userName %></p>
+            </div>
+            
+            <div class="content">
+                <a href="/viewpost/<%=postObjId %>">
+                    <p class="title"><%=curTitle %></p>
+                    <p class="text"><%= curContents %></p>
+                    <p class="req_location"><%= category %></p>
+                    <p class="info">
+                        <span class="gender"><%= helperGender%></span>
+                        <span class="distance"><%= distance%></span>
+                        <span class="pay"><%= pay %>원</span>
+                    </p>
+                    <p class="req_location">
+                        <%= addr %>
+                    </p>
+                </a>
+            </div>
+        </li>
+        <div class="clear"></div>
+        <% } %>
+    <% } %> 
+                
+        
