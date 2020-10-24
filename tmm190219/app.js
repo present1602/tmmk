@@ -19,6 +19,11 @@ var socketio = require('socket.io');
 var cors = require('cors');
 
 var mongoose = require('mongoose');
+const configData = require('./config');
+// console.log("configData : ", configData)
+
+process.env.NODE_ENV = process.env.NODE_ENV && (process.env.NODE_ENV == 'production') ? 'production' : 'development';
+console.log("process.env.NODE_ENV : ", process.env.NODE_ENV);
 
 var app = express();
 app.set('views', __dirname + '/views');  //app.set('views', '/views'); 
@@ -64,10 +69,13 @@ var postModule = require('./routes/post');
 
 //데이터베이스에 연결
 function connectDB(){
-    var databaseUrl = 'mongodb://localhost:27017/local';
+    // var databaseUrl = 'mongodb://localhost:27017/local';
+    var databaseUrl = configData.dbpath;
+    console.log('databaseUrl : ' + databaseUrl)
+
     console.log('데이터베이스 연결을 시도합니다');
     mongoose.Promise = global.Promise;
-    mongoose.connect(databaseUrl);
+    mongoose.connect(databaseUrl, {useUnifiedTopology: true});
     database = mongoose.connection;
 
     database.on('error', console.error.bind(console, 'mongoose connection error.'));
