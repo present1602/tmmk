@@ -14,16 +14,16 @@
 </head>
 <body>
 <script>
-$(function(){
-	var inp = document.getElementsByTagName('input');
-	for(var i in inp){
-		if(inp[i].type == "text"){
-			inp[i].addEventListener('click', function(){
-				this.value = "";
-			})
-		}
-	}
-})
+// $(function(){
+// 	var inp = document.getElementsByTagName('input');
+// 	for(var i in inp){
+// 		if(inp[i].type == "text"){
+// 			inp[i].addEventListener('click', function(){
+// 				this.value = "";
+// 			})
+// 		}
+// 	}
+// })
 
 </script>
 
@@ -35,19 +35,19 @@ $(function(){
             <div id="joinContent">
 				<table class="table" id="Table1">
 					<tr>
-						<td><input type="text" name="uid" id="uid" value="아이디"></td>
+						<td><input type="text" name="uid" id="uid" placeholder="아이디"></td>
 					</tr>
 					<tr>
-						<td><input type="text" name="upw" id="upw" value="비밀번호"></td>
+						<td><input type="password" name="upw" id="upw" placeholder="비밀번호"></td>
 					</tr>
 					
 				</table>
 				<table class="table" id="Table2">
 					<tr>
-						<td><input type="text" name="uname" id="uname" value="이름"/></td>
+						<td><input type="text" name="uname" id="uname" placeholder="이름"/></td>
 					</tr>
 					<tr>
-						<td><input type="text" name="ubirth" id="ubirth" value="생년월일"/></td>
+						<td><input type="text" name="ubirth" id="ubirth" placeholder="생년월일"/></td>
 					</tr>
 				</table>
 				
@@ -60,10 +60,10 @@ $(function(){
 
 				<table class="table" id="Table3">
 					<tr>
-						<td><input type="text" name="uphone" id="uphone" value="전화번호"></td>
+						<td><input type="text" name="uphone" id="uphone" placeholder="전화번호"></td>
 					</tr>
 					<tr>
-						<td><input type="text" name="uemail" id="uemail" value="이메일"></td>
+						<td><input type="text" name="uemail" id="uemail" placeholder="이메일"></td>
 					</tr>
 				</table>
 

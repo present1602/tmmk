@@ -26,10 +26,10 @@
 			<div id = "login_content">
 				<table class ="table">
 					<tr>
-						<td><input type="text" name="uid" value="아이디"/></td>	
+						<td><input type="text" name="uid" value="아이디" id="login_id_input"/></td>	
 					</tr>
 					<tr>
-						<td><input type="text" name="upw" value="비밀번호"/></td>
+						<td><input type="password" name="upw" value="비밀번호" id="login_pw_input"/></td>
 					</tr>
 				</table>
 				<input type="button" class="bottom_button" id="loginButton" value="로그인"/>		
@@ -42,6 +42,26 @@
 		<div id='login_fail_info'></div>
 	</div>
 <script>
+$("#login_id_input").focus(function(e){
+	e.target.value= ""
+});
+
+$("#login_id_input").focusout(function(e){
+	if(e.target.value== ""){
+		e.target.value = "아이디"
+	}
+});
+
+$("#login_pw_input").focus(function(e){
+	e.target.value= ""
+});
+
+$("#login_pw_input").focusout(function(e){
+	if(e.target.value== ""){
+		e.target.value = "비밀번호"
+	}
+});
+
 $("#loginButton").click(function(e){
 	e.preventDefault();
 	$.ajax({

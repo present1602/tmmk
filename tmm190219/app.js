@@ -80,7 +80,7 @@ function connectDB(){
 
     database.on('error', console.error.bind(console, 'mongoose connection error.'));
     database.on('open', function(){
-        console.log('데이터베이스에 연결되었습니다 ' + databaseUrl);
+        console.log('데이터베이스에 연결되었습니다 ');
 
         UserModel = require('./database/user_model');
         postModel = require('./database/post_model');
