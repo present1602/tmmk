@@ -6,8 +6,13 @@ var useremail = localStorage.getItem('useremail');
 var userpic = localStorage.getItem('userpic');
 var userOid = localStorage.getItem('useroid');
 
+var s3Url = "https://tm-20201025.s3.ap-northeast-2.amazonaws.com";
+
 $(function(){
-    var getUrl = "url('/upload/" + userpic + "') no-repeat center center"
+    
+    localStorage.setItem("s3Url", s3Url);
+
+    var getUrl = "url('" + s3Url + "/upload/" + userpic + "') no-repeat center center"
     console.log("getUrl : " + getUrl);
     $("#sidebar_userpic").css("background", getUrl);
     $("#sidebar_userpic").css("background-size", "cover");

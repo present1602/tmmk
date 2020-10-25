@@ -4,8 +4,6 @@
 <meta name="viewport" content="width=device-width">
 <meta charset="utf-8" />
 <link href="/css/common.css" rel="stylesheet" /> 
-<!-- 정적파일(html, css)은 링크 /로 시작하면 바로 public폴더로 연결됨  href="../public/css/common.css"로 하면 링크안걸림
-  href="/public/css/common.css로 해도 링크 안걸림  아래 이미지들 src="path" 도 마찬가지로 src="/images/filename.jpg로 해야함 -->
 
 <title>Untitled Document</title>
 
@@ -22,8 +20,7 @@
         <div class="sidenav_layerbox">
             <p class="sidenav_close"><img src="/images/backgray.gif" style="width:40px"></p>
             <div class="sidenav_top">
-                <p class="user_pic" id="sidebar_userpic" 
-                    style="background-size:cover; width:60px;height:60px; 
+                <p class="user_pic" id="sidebar_userpic" style="background-size:cover; width:60px;height:60px; 
                         display:inline-block; width: 60px; position: absolute; left: 14px;
                         border-radius:30px;">
                 </p>
@@ -35,11 +32,11 @@
                 <li class="sidenav_item"><a href="/posting">헬퍼요청</a></li>
             </ul>
         </div>
-    </div> 
+    </div>
     <div class="header">
         <div class="in_header">
             <p class="menu_icon"><img src="/images/menutop.gif"></p>
-            <h1 class="top_logo"><a>App Name</a></h1>            
+            <h1 class="top_logo"><a>App Name</a></h1>
         </div>
         <nav class="main_nav">
             <ul class="main_nav_list">
@@ -49,9 +46,9 @@
             </ul>
         </nav>
     </div>
-    
+
     <div class="container">
-        <section>	
+        <section>
 
             <% 
                 var curTitle = post._doc.title;
@@ -78,22 +75,24 @@
 
                 var location = addr.split(" ")[0]
             %>
-            
+
             <div id="post_box">
-                <div class = "top_in_box">
-                    <p class="user_pic" style="width:48px;height:48px; margin:2px; 
+                <div class="top_in_box">
+                    <p class="user_pic"
+                        style="width:48px;height:48px; margin:2px; 
                     position: relative; width: 40px; height: 40px; margin: 5px 0;
                     display:inline-block; position: relative; border-radius:30px;
-                    background:url('/upload/<%=userPicFilename %>') no-repeat center center; background-size:cover">
+                    background:url('https://tm-20201025.s3.ap-northeast-2.amazonaws.com/upload/<%=userPicFilename %>') no-repeat center center; background-size:cover">
                     </p>
 
-                    <p class="user"><span class="user_name"><%= writerName %>(<%=writerGender%>)</span><span class="user_location"><%= location%></span></p>
+                    <p class="user"><span class="user_name"><%= writerName %>(<%=writerGender%>)</span><span
+                            class="user_location"><%= location%></span></p>
                     <p class="time"><%= processDate %></p>
                     <div class="clear"></div>
                 </div>
                 <div class="content">
                     <p class="title"> <%=curTitle %> </p>
-                    <p class="text">  <%=decodedContents %>
+                    <p class="text"> <%=decodedContents %>
                     </p>
                     <p class="info">
                         <span class="gender" style="margin-right:15px">성별 : <%=helperGender %> </span><br>
@@ -102,42 +101,43 @@
                         <span class="location">장소 : <%=addr %></span>
                     </p>
                 </div>
-               
+
                 <form id="gomsg" method="post">
                     <input type="hidden" name="writer_oid" value="<%=writerObjId %>">
                     <input type="hidden" name="writer_id" id="writer_id" value="<%=writerId %>">
                     <input type="hidden" name="post_oid" id="post_oid" value="<%=postObjId%>">
                     <input type="button" id="message_button" class="bottom_button" value="메세지보내기"
-                    style="position: absolute; bottom: 0;">
+                        style="position: absolute; bottom: 0;">
                 </form>
-               
+
             </div>
         </section>
     </div>
+
+    <script>
+        $("#message_button").on('click', function (e) {
+            console.log('reqpost 메세지보내기 버튼 클릭 - postoid writerid체크 ')
+            console.log('$("#post_oid").val() : ' + $("#post_oid").val())
+            console.log('$("#writer_id").val() : ' + $("#writer_id").val())
+            e.preventDefault();
+            $.ajax({
+                url: '/chat'
+                , method: 'POST'
+                , data: { post_oid: $("#post_oid").val(), writer_id: $("#writer_id").val() }
+                , success: function (data) {
+                    var dataStr = JSON.stringify(data)
+                    console.log('dataStr : ' + dataStr)
+                    if (data.chat_id != "") {
+                        console.log('data.chatId : ' + data.chat_id)
+                        location.href = '/chaton/' + data.chat_id
+                    } else {
+                        alert('자신이 작성한 포스팅에서는 먼저 채팅을 시작할 수 없습니다')
+                    }
+                }
+            });
+        })
+    </script>
 </div>
-<script>
-$("#message_button").on('click', function(e){
-    console.log('reqpost 메세지보내기 버튼 클릭 - postoid writerid체크 ')
-    console.log('$("#post_oid").val() : ' + $("#post_oid").val())
-    console.log('$("#writer_id").val() : ' + $("#writer_id").val())
-    e.preventDefault();
-    $.ajax({
-        url:'/chat'
-        ,method:'POST'
-        ,data : {post_oid:$("#post_oid").val(), writer_id:$("#writer_id").val()}
-        ,success:function(data){
-            var dataStr = JSON.stringify(data)
-            console.log('dataStr : ' + dataStr )
-            if(data.chat_id != ""){
-                console.log('data.chatId : ' + data.chat_id)
-                location.href = '/chaton/'+ data.chat_id
-            }else{
-                alert('자신이 작성한 포스팅에서는 먼저 채팅을 시작할 수 없습니다')
-            }
-        }
-    });
-})
-</script>
 
 </body>
 </html>

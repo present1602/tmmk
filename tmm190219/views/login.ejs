@@ -71,7 +71,7 @@ $("#loginButton").click(function(e){
 		,success:function(response){
 			console.log('response : ', response)
 			if(response.is_success=="success"){
-				var token = response.token;
+				var token = response.token;				
 				console.log('response.token : ', response.token)
 				var decode = parseJwt(token);
 				console.log("jstr data : " + JSON.stringify(token))

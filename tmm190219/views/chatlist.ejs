@@ -50,6 +50,7 @@
             <% showList() %>  
             </ul>
 <% function showList(){ %>
+
     <% for (var i = 0; i < data.length; i++) {
         console.log('data : ' + data);
         var sender = data[i].sender;
@@ -60,7 +61,7 @@
     %>
     <li>  
         <div class="user_info">
-            <p class="user_pic"><img src="/upload/<%= senderPic %>"></p>
+            <p class="user_pic"><img src="https://tm-20201025.s3.ap-northeast-2.amazonaws.com/upload/<%= senderPic %>"></p>
             <p class="user_name" style="font-size:11px"><%=sender %></p>
         </div>
         
@@ -68,7 +69,6 @@
             <a href="/chaton/<%=chatId %>" >
                 <p class="title"><%=text %></p>
                 <p class="text"><%= created %></p>
-                
             </a>
         </div>
     </li>
@@ -78,7 +78,6 @@
 
     </div>  <!-- 컨테이너 끝 -->  
 </div>  <!-- 랩 끝 -->
-
 </body>
 </html>
 
