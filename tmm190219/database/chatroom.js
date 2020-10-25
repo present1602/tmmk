@@ -20,7 +20,7 @@ var ChatRoomSchema = new Schema({
     }]
     ,linkedpost : {type:Schema.Types.ObjectId, ref:'reqposts'} 
     ,created_at :{type:Date, 'default':Date.now} 
-});
+}, {usePushEach: true});
 
 
 ChatRoomSchema.plugin(deepPopulate);
