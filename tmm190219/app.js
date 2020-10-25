@@ -11,19 +11,33 @@ var jwt = require('jsonwebtoken');
 var expressSession = require('express-session');
 
 var multer = require('multer');
+var multerS3 = require('multer-s3');
+const AWS = require('aws-sdk');
+
 var fs = require('fs'); 
 // Entities모듈 - showpost.ejs파일 content(내용입력부분) 처리시 사용?
 var Entities = require('html-entities').AllHtmlEntities; 
 
 var socketio = require('socket.io');
 var cors = require('cors');
+const { v4: uuidv4 } = require('uuid');
 
 var mongoose = require('mongoose');
+
+
 const configData = require('./config');
 // console.log("configData : ", configData)
 
 process.env.NODE_ENV = process.env.NODE_ENV && (process.env.NODE_ENV == 'production') ? 'production' : 'development';
 console.log("process.env.NODE_ENV : ", process.env.NODE_ENV);
+
+AWS.config.update({
+    accessKeyId : configData.awsConfig.accessKeyId,
+    secretAccessKey : configData.awsConfig.secretAccessKey,
+    region : configData.awsConfig.region
+});
+
+var s3 = new AWS.S3(); 
 
 var app = express();
 app.set('views', __dirname + '/views');  //app.set('views', '/views'); 
@@ -46,9 +60,25 @@ app.use(expressSession({ // 세션 설정
     saveUninitialized:true
 }));
 
+var upload = multer({
+    storage: multerS3({
+        s3: s3,
+        bucket: configData.awsConfig.bucket, // 버킷 이름
+        contentType: multerS3.AUTO_CONTENT_TYPE, // 자동을 콘텐츠 타입 세팅
+        acl: 'public-read-write', // 클라이언트에서 자유롭게 가용하기 위함
+        key: (req, file, cb) => {
+            console.log(file);
+            var filename = uuidv4().substring(0, 4) + "-" + file.originalname; 
+            console.log("in upload, filename : ", filename);
+            cb(null, 'upload/' + filename)
+        },
+    }),
+    limits: { fileSize: 5 * 1024 * 1024 }, // 용량 제한
+});
+/*
 var storage = multer.diskStorage({
     destination : function(req, file, callback){
-        callback(null, 'public/upload')
+        callback(null, '')
     },
     filename : function(req, file, callback){
         callback(null, Date.now()+file.originalname )  //date.now 앞으로 뺌 이미지확장자가 뒤로 와야될것 같아서
@@ -57,6 +87,10 @@ var storage = multer.diskStorage({
 var upload = multer({
     storage : storage
 })
+*/
+
+
+
 //데이터베이스 객체를 위한 변수 선언
 var database;
 var UserModel;

@@ -71,17 +71,18 @@ var signup = (req, res) => {
         return crypto.createHmac('sha1', salt).update(pw).digest('hex');
     }
 
-    console.log("req.files[0].path ", req.files[0].path)
     if (database) {  //addUser실행되면 -> 1) var user = new UserModel(...), user.save 저장
         var user = new UserModel({"id":paramId, "hashed_password":hashedPassword, "salt":salt, 
             "name":paramName, "birth":paramBirth, "gender":paramGender, "phone":paramPhone, 
             "email":paramEmail, "pic":paramPic});
         if(paramPic){
-            user.pic.data = fs.readFileSync(paramPic.path); //추가 
-            console.log("fs.readFileSync(paramPic.path) : ", fs.readFileSync(paramPic.path))
+            var getFilename = paramPic.key.split('/')[1]
+            console.log("paramPic : ", paramPic)
+            // user.pic.data = fs.readFileSync(paramPic.path); //추가 
+            // console.log("fs.readFileSync(paramPic.path) : ", fs.readFileSync(paramPic.path))
             user.pic.contentType= paramPic.mimetype;
-            user.pic.path = paramPic.path;
-            user.pic.filename = paramPic.filename;
+            user.pic.path = paramPic.location;
+            user.pic.filename = getFilename;
         }
         
         user.save();
