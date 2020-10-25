@@ -19,12 +19,21 @@
 <body>
 
 <script>
+var socket = io.connect();
 $(function(){
 	var $reqTable = $(".filter_table");
 	var $tableLen = $reqTable.length;
 	for(var i=0; i < $tableLen-1 ;i++){
 		$($reqTable[i]).css("border-bottom", "1px solid rgba(232,232,232,1)")
-	};
+    };
+    
+    var logoutTab = document.getElementById("logoutTab");
+    logoutTab.addEventListener("click", function(){
+        alert("로그아웃하였습니다");
+        localStorage.clear();
+        document.cookie = 'access_token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        location.href= "/"
+    });
 })
 </script>
 
@@ -130,6 +139,7 @@ $(function(){
             <ul>
                 <li class="sidenav_item"><a href="/chatlist">메세지</a></li>
                 <li class="sidenav_item"><a href="/posting">헬퍼요청</a></li>
+                <li class="sidenav_item" id="logoutTab">로그아웃</li>
             </ul>
         </div>
     </div> 
