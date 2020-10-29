@@ -1,4 +1,5 @@
 FROM node:12
+MAINTAINER msmong <01191318447@naver.com>
 
 WORKDIR /usr/app
 
