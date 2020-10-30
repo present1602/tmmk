@@ -2,9 +2,7 @@ node_modules
 
 config.js
 awsconfig.json
-Dockerfile
-dockerfile
-nginx
-nginx.conf
-*.yml
 
+dhparam
+docker-compose.yml
+nginx.conf
