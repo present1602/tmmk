@@ -15,6 +15,21 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=85097723654db6cd517aed007a5a1371&libraries=services"></script>
 
 <script src="js/common.js"></script>
+
+<script>
+const wprotocol = window.location.protocol;
+var jqscript = document.createElement("script");
+jqscript.type = 'text/javascript';
+											
+if(wprotocol === 'http:'){
+		jqscript.src="http://code.jquery.com/jquery-1.11.1.min.js";
+		document.head.appendChild(jqscript);
+}else if(wprotocol === 'https:'){
+		jqscript.src="https://code.jquery.com/jquery-1.11.1.min.js"
+		document.head.appendChild(jqscript);
+}
+</script>
+
 </head>
 
 <body>

@@ -1,124 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/common.css">
+    <!-- <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
-    <link href="/css/common.css" rel="stylesheet" /> 
+    <link href="/css/common.css" rel="stylesheet" />
 </head>
-<body>
-<style>
-#chatWrap{background-color:skyblue}
-#chatbox{box-sizing:border-box; height:calc(100vh - 42px); overflow:scroll; width:100%;}
-#chatbox li{position:relative;}
-
-#message_form{width:100%; position:relative;}
-
-#join_message{ margin: 15px 20px; font-size: 15px; padding: 10px 20px;}
-
-.userInfo{position:absolute; 
-    width:70px; margin:5px; text-align:center;}
-.sender_pic{display:block; margin:0 auto; width:46px; height:46px; border-radius:23px;}
-.senderName{font-size:13px; padding: 6px;}
-.messageInfo{ padding-left:68px; max-width: 65%;}
-
-.get_message{display:inline-block; background: white; border-radius:5px; 
-    line-height:150%; margin:5px; padding:10px; max-width:215px; }
-.sent_at{padding-left:5px; margin:5px; font-size:13px; }
-
-li.my_message{text-align:right; padding:5px;}
-li.my_message p{display:inline-block; max-width:250px; text-align:right; background:yellow; 
-    margin:5px; border-radius: 5px; padding:10px;}
-li.my_message .sent_at{margin-right:12px;}
-
-#messageInputBox{position:fixed; display:flex; bottom:0; width:100%; height:42px;max-width: 840px;}
-#messageInput{flex:1; border:1px solid rgba(207,207,207,1)}
-#sendMessage{background-color: rgba(7,173,132,1); color:#fff; 
-    width:20%; border: none;}
-
-
-</style>
 <script>
-$(function(){
-    socket = io.connect();
-
-    var chatOid = $("#oid_hidden").val();
-    var username = username || localStorage.getItem('username');
-    var userId = userId || localStorage.getItem('userid');
-    var userOid = userOid || localStorage.getItem('useroid');
-
-    if(socket == undefined){
-        alert('서버에 연결되어 있지 않습니다'); 
-        return;
-    }
-    socket.emit('join', {chatOid:chatOid});
-
-    socket.on('message_req', function(message) {
-        console.log('메세지 전송 받음 message(data.content): ' + message.content);
-        var printMessage = "<li>"
-        printMessage += "<div class='userInfo'>"
-                        + "<img class='sender_pic' src=" + localStorage.getItem("s3Url") + "/upload/" + message.senderPic + ">"
-                        + "<p class='senderName'>" + message.sender + "</p>"
-                        + "</div>"
-                        + "<div class='messageInfo'>"
-                            + "<p class='get_message' style='text-align:left'>" + message.content + "</p>"
-                            + "<p class='sent_at'>" + message.created + "</p>"
-                        + "</div></li>"
-
-        console.log(JSON.stringify(printMessage));
-        $("#chat").append(printMessage)
-    }); 
-    
-
-    $("#sendMessage").on('click', function(){
-        // if(socket == undefined){ alert('서버에 연결되어 있지 않습니다'); return; }
-        
-        var messageInput = $("#messageInput").val();
-        var output = {content:messageInput, room:chatOid, sender:userId, senderOid:userOid};
-        console.log('message.content : ' + output.content)
-        socket.emit('message_req', output);
-        console.log('send 버튼 클릭');
-        
-        var process_created = [];
-        var createDate = new Date();
-        var month = (createDate.getMonth() + 1) + "월";
-        var date = createDate.getDate() + "일";
-        var hour = createDate.getHours();
-        var hour = createDate.getHours();
-        if (hour > 12) {
-            hour = "오후 " + (hour-12) +"시";
-        } else if (hour === 0) {
-            hour = "오후 12시";
-        }else{
-            hour = "오전 " + hour + "시"; 
-        }
-        var min = createDate.getMinutes() + "분";
-        process_created.push(month, date, hour, min);
-        process_created = process_created.join(" ");   
-        console.log('process_created : ' + process_created);
-
-
-        var printMessage = "<li class='my_message' style='text-align:right'><p>" +messageInput + "</p><br>";
-        printMessage +=     "<span class='sent_at' style='text-align:right'>" + process_created + "</span>"
-        printMessage +=   "</li>";         
-        console.log("printMessage : " + printMessage);                   
-        $("#chat").append(printMessage); 
-        
-    });
-});
-
+const wprotocol = window.location.protocol;
+var jqscript = document.createElement("script");
+jqscript.type = 'text/javascript';
+											
+if(wprotocol === 'http:'){
+		jqscript.src="http://code.jquery.com/jquery-1.11.1.min.js";
+		document.head.appendChild(jqscript);
+}else if(wprotocol === 'https:'){
+		jqscript.src="https://code.jquery.com/jquery-1.11.1.min.js"
+		document.head.appendChild(jqscript);
+}
 
 </script>
+
+<body>
+    <style>
+        #chatWrap {
+            background-color: skyblue
+        }
+
+        #chatbox {
+            box-sizing: border-box;
+            height: calc(100vh - 42px);
+            overflow: scroll;
+            width: 100%;
+        }
+
+        #chatbox li {
+            position: relative;
+        }
+
+        #message_form {
+            width: 100%;
+            position: relative;
+        }
+
+        #join_message {
+            margin: 15px 20px;
+            font-size: 15px;
+            padding: 10px 20px;
+        }
+
+        .userInfo {
+            position: absolute;
+            width: 70px;
+            margin: 5px;
+            text-align: center;
+        }
+
+        .sender_pic {
+            display: block;
+            margin: 0 auto;
+            width: 46px;
+            height: 46px;
+            border-radius: 23px;
+        }
+
+        .senderName {
+            font-size: 13px;
+            padding: 6px;
+        }
+
+        .messageInfo {
+            padding-left: 68px;
+            max-width: 65%;
+        }
+
+        .get_message {
+            display: inline-block;
+            background: white;
+            border-radius: 5px;
+            line-height: 150%;
+            margin: 5px;
+            padding: 10px;
+            max-width: 215px;
+        }
+
+        .sent_at {
+            padding-left: 5px;
+            margin: 5px;
+            font-size: 13px;
+        }
+
+        li.my_message {
+            text-align: right;
+            padding: 5px;
+        }
+
+        li.my_message p {
+            display: inline-block;
+            max-width: 250px;
+            text-align: right;
+            background: yellow;
+            margin: 5px;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        li.my_message .sent_at {
+            margin-right: 12px;
+        }
+
+        #messageInputBox {
+            position: fixed;
+            display: flex;
+            bottom: 0;
+            width: 100%;
+            height: 42px;
+            max-width: 840px;
+        }
+
+        #messageInput {
+            flex: 1;
+            border: 1px solid rgba(207, 207, 207, 1)
+        }
+
+        #sendMessage {
+            background-color: rgba(7, 173, 132, 1);
+            color: #fff;
+            width: 20%;
+            border: none;
+        }
+    </style>
+    <script>
+        $(function () {
+            socket = io.connect();
+
+            var chatOid = $("#oid_hidden").val();
+            var username = username || localStorage.getItem('username');
+            var userId = userId || localStorage.getItem('userid');
+            var userOid = userOid || localStorage.getItem('useroid');
+
+            if (socket == undefined) {
+                alert('서버에 연결되어 있지 않습니다');
+                return;
+            }
+            socket.emit('join', { chatOid: chatOid });
+
+            socket.on('message_req', function (message) {
+                console.log('메세지 전송 받음 message(data.content): ' + message.content);
+                var printMessage = "<li>"
+                printMessage += "<div class='userInfo'>"
+                    + "<img class='sender_pic' src=" + localStorage.getItem("s3Url") + "/upload/" + message.senderPic + ">"
+                    + "<p class='senderName'>" + message.sender + "</p>"
+                    + "</div>"
+                    + "<div class='messageInfo'>"
+                    + "<p class='get_message' style='text-align:left'>" + message.content + "</p>"
+                    + "<p class='sent_at'>" + message.created + "</p>"
+                    + "</div></li>"
+
+                console.log(JSON.stringify(printMessage));
+                $("#chat").append(printMessage)
+            });
+
+
+            $("#sendMessage").on('click', function () {
+                // if(socket == undefined){ alert('서버에 연결되어 있지 않습니다'); return; }
+
+                var messageInput = $("#messageInput").val();
+                var output = { content: messageInput, room: chatOid, sender: userId, senderOid: userOid };
+                console.log('message.content : ' + output.content)
+                socket.emit('message_req', output);
+                console.log('send 버튼 클릭');
+
+                var process_created = [];
+                var createDate = new Date();
+                var month = (createDate.getMonth() + 1) + "월";
+                var date = createDate.getDate() + "일";
+                var hour = createDate.getHours();
+                var hour = createDate.getHours();
+                if (hour > 12) {
+                    hour = "오후 " + (hour - 12) + "시";
+                } else if (hour === 0) {
+                    hour = "오후 12시";
+                } else {
+                    hour = "오전 " + hour + "시";
+                }
+                var min = createDate.getMinutes() + "분";
+                process_created.push(month, date, hour, min);
+                process_created = process_created.join(" ");
+                console.log('process_created : ' + process_created);
+
+
+                var printMessage = "<li class='my_message' style='text-align:right'><p>" + messageInput + "</p><br>";
+                printMessage += "<span class='sent_at' style='text-align:right'>" + process_created + "</span>"
+                printMessage += "</li>";
+                console.log("printMessage : " + printMessage);
+                $("#chat").append(printMessage);
+
+            });
+        });
+
+
+    </script>
     <div class="wrap" id="chatWrap">
         <div class="container">
             <div id="chatbox">
                 <ul id="chat">
-                    <li><p class='get_message' id="join_message">채팅방에 입장했습니다</p></li>
-                
-                 <%  var messages = conversation.contents;
+                    <li>
+                        <p class='get_message' id="join_message">채팅방에 입장했습니다</p>
+                    </li>
+
+                    <%  var messages = conversation.contents;
                     console.log('messages.length : ' + messages.length)
                     var chatroomOid = conversation._id
                     console.log('chat_on_req 파일 conversation._id : ' + conversation._id )
@@ -148,38 +244,40 @@ $(function(){
 
                         
                         if(sender == user){
-                    %> 
+                    %>
 
-                            <li class="my_message">
-                                <p><%=text %></p>
-                                <br>
-                                <span class="sent_at" style="text-align:right"><%=process_created%></span>
-                            </li>   
+                    <li class="my_message">
+                        <p><%=text %></p>
+                        <br>
+                        <span class="sent_at" style="text-align:right"><%=process_created%></span>
+                    </li>
                     <%  }else{ %>
-                            <li>
-                                <div class="userInfo">
-                                    <img class="sender_pic" src="https://tm-20201025.s3.ap-northeast-2.amazonaws.com/upload/<%= senderPic %>">
-                                    <p class="senderName"><%=sender%></p>
-                                </div>
-                                <div class="messageInfo">
-                                    <p class="get_message" style="text-align:left"><%=text %></p>
-                                    <p class="sent_at"><%=process_created%></p>
-                                </div>
-                                
-                            </li>
+                    <li>
+                        <div class="userInfo">
+                            <img class="sender_pic"
+                                src="https://tm-20201025.s3.ap-northeast-2.amazonaws.com/upload/<%= senderPic %>">
+                            <p class="senderName"><%=sender%></p>
+                        </div>
+                        <div class="messageInfo">
+                            <p class="get_message" style="text-align:left"><%=text %></p>
+                            <p class="sent_at"><%=process_created%></p>
+                        </div>
+
+                    </li>
                     <% } 
                 } }
-                %>               
+                %>
                 </ul>
             </div>
-            <input id="oid_hidden" type="hidden" value=<%=conversation._id%> >
+            <input id="oid_hidden" type="hidden" value=<%=conversation._id%>>
 
             <div id="messageInputBox">
-                <input size="35" id="messageInput">  
-                <input type="button" id="sendMessage" value="보내기">    
+                <input size="35" id="messageInput">
+                <input type="button" id="sendMessage" value="보내기">
             </div>
-            
+
         </div>
     </div>
 </body>
+
 </html>

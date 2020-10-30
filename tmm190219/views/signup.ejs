@@ -8,11 +8,27 @@
 
 <title>Untitled Document</title>
 
-<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<!-- <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script> -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 </head>
 <body>
+
+<script>
+const wprotocol = window.location.protocol;
+var jqscript = document.createElement("script");
+jqscript.type = 'text/javascript';
+											
+if(wprotocol === 'http:'){
+		jqscript.src="http://code.jquery.com/jquery-1.11.1.min.js";
+		document.head.appendChild(jqscript);
+}else if(wprotocol === 'https:'){
+		jqscript.src="https://code.jquery.com/jquery-1.11.1.min.js"
+		document.head.appendChild(jqscript);
+}
+
+</script>
+
 <script>
 // $(function(){
 // 	var inp = document.getElementsByTagName('input');
