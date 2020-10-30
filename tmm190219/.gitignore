@@ -2,3 +2,6 @@ node_modules
 
 config.js
 awsconfig.json
+dhparam
+docker-compose.yml
+nginx.conf
