@@ -2,3 +2,9 @@ node_modules
 
 config.js
 awsconfig.json
+Dockerfile
+dockerfile
+nginx
+nginx.conf
+*.yml
+
