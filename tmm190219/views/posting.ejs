@@ -1,28 +1,50 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset='mtf-8'>
-<title></title>
-<meta name="viewport" content="width=device-width">
+	<meta charset='mtf-8'>
+	<title></title>
+	<meta name="viewport" content="width=device-width">
 
-<script src="/js/lib/jquery-1.11.1.min.js"></script>
-<script src="/js/lib/socket-2.0.4.io.js"></script>
+	<script src="/js/lib/jquery-1.11.1.min.js"></script>
+	<script src="/js/lib/socket-2.0.4.io.js"></script>
 
-<link rel="stylesheet" type="text/css" href="/css/common.css">
-<link rel="stylesheet" type="text/css" href="/css/posting.css">
-<script src="js/common.js"></script>
-<script src="js/posting.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/common.css">
+	<link rel="stylesheet" type="text/css" href="/css/posting.css">
+	<script src="js/common.js"></script>
+	<script src="js/posting.js"></script>
 </head>
 
 <body>
 
 	<div class="wrap">
+		<div class="sidenav_layer" id="usidelayer">
+			<div class="sidenav_layerbox">
+				<p class="sidenav_close"><img src="/images/backgray.gif" style="width:40px"></p>
+				<div class="sidenav_top">
+					<p class="user_pic" id="sidebar_userpic" style="background-size:cover; width:60px;height:60px; 
+											display:inline-block; width: 60px; position: absolute; left: 14px;
+											border-radius:30px;">
+					</p>
+					<p class="welcom_message"><span class="user_id" id="sidebar_userid"></span>님 환영합니다</p>
+					<p id="sidebar_email"></p>
+				</div>
+				<ul>
+					<li class="sidenav_item"><a href="/chatlist">메세지</a></li>
+					<li class="sidenav_item"><a href="/posting">헬퍼요청</a></li>
+					<li class="sidenav_item" id="logoutTab">로그아웃</li>
+				</ul>
+			</div>
+		</div>
+
 		<header class="header">
 			<div class="in_header">
 				<p class="menu_icon"><img src="/images/menutop.gif"></p>
-				<h1 class="top_logo">App Name</h1>
+				<h1 class="top_logo">Time Market</h1>
 			</div>
 		</header>
+
+
 		<div class="container">
 			<p class="posting_title">헬퍼요청</p>
 			<form action="/posting" method="post" id="posting_form">
@@ -35,72 +57,73 @@
 					<textarea rows="3" cols="50" style="overflow:scroll" name="content" id="content">
 					</textarea>
 					<div>
-					<p class="search_option_title">일당</p>
-					<input type="text" name="pay" value="0">	
-				
-					<p class="search_option_title">헬퍼성별</p>
-					<ul>
-						<li>
-							<input type="radio" name="helper_gender" value="무관" id="no_choice">
-							<label for="no_choice">무관</label>
-						</li>
-						<li>
-							<input type="radio" name="helper_gender" value="남" id="male_helper">
-							<label for="male_helper">남성</label>
-						</li>
-						<li>
-							<input type="radio" name="helper_gender" value="여" id="female_helper">
-							<label for="female_helper">여성</label>	
-						</li>
-					</ul>
+						<p class="search_option_title">일당</p>
+						<input type="text" name="pay" value="0">
 
-					<p class="search_option_title">작업유형</p>
-					<ul>
-						<li>	
-							<input type="radio" class="category" name="category" value="일일알바" id="ct_item1">
-							<label for="ct_item1">일일알바</label>   <!-- value="값" 값 부분에 db에 저장됨 -->
-						</li>
-						<li>
-							<input type="radio" class="category" name="category" value="심부름" id="ct_item2">
-							<label for="ct_item2">심부름</label>
-						</li>
-						<li>
-							<input type="radio" class="category" name="category" value="청소" id="ct_item3">
-							<label for="ct_item3">청소</label>
-						</li>
-						<li>
-							<input type="radio" class="category" name="category" value="일손도움" id="ct_item4">
-							<label for="ct_item4">일손도움</label>
-						</li>
-						<li>
-							<input type="radio" class="category" name="category" value="문서작업" id="ct_item5">
-							<label for="ct_item5">문서작업</label>
-						</li>
-						<li>
-							<input type="radio" class="category" name="category" value="애견돌봄" id="ct_item6">
-							<label for="ct_item6">애견돌봄</label>
-						</li>
-					</ul>
+						<p class="search_option_title">헬퍼성별</p>
+						<ul>
+							<li>
+								<input type="radio" name="helper_gender" value="무관" id="no_choice">
+								<label for="no_choice">무관</label>
+							</li>
+							<li>
+								<input type="radio" name="helper_gender" value="남" id="male_helper">
+								<label for="male_helper">남성</label>
+							</li>
+							<li>
+								<input type="radio" name="helper_gender" value="여" id="female_helper">
+								<label for="female_helper">여성</label>
+							</li>
+						</ul>
+
+						<p class="search_option_title">작업유형</p>
+						<ul>
+							<li>
+								<input type="radio" class="category" name="category" value="일일알바" id="ct_item1">
+								<label for="ct_item1">일일알바</label> <!-- value="값" 값 부분에 db에 저장됨 -->
+							</li>
+							<li>
+								<input type="radio" class="category" name="category" value="심부름" id="ct_item2">
+								<label for="ct_item2">심부름</label>
+							</li>
+							<li>
+								<input type="radio" class="category" name="category" value="청소" id="ct_item3">
+								<label for="ct_item3">청소</label>
+							</li>
+							<li>
+								<input type="radio" class="category" name="category" value="일손도움" id="ct_item4">
+								<label for="ct_item4">일손도움</label>
+							</li>
+							<li>
+								<input type="radio" class="category" name="category" value="문서작업" id="ct_item5">
+								<label for="ct_item5">문서작업</label>
+							</li>
+							<li>
+								<input type="radio" class="category" name="category" value="애견돌봄" id="ct_item6">
+								<label for="ct_item6">애견돌봄</label>
+							</li>
+						</ul>
 
 
-					<input type="hidden" id="latitude" name="latitude" value="위도">
-					<input type="hidden" id="longitude" name="longitude" value="경도">
-					<input type="hidden" id="road_addr" name="road_addr" value="도로명주소">
-				
-					<p class="search_option_title">장소</p>
-					<input type="text" id="addr" name="addr" value="주소">				
-					<div class="map_wrap">
-						<p id="posOnMap"></p>
-						<div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;">
-						</div> 
+						<input type="hidden" id="latitude" name="latitude" value="위도">
+						<input type="hidden" id="longitude" name="longitude" value="경도">
+						<input type="hidden" id="road_addr" name="road_addr" value="도로명주소">
+
+						<p class="search_option_title">장소</p>
+						<input type="text" id="addr" name="addr" value="주소">
+						<div class="map_wrap">
+							<p id="posOnMap"></p>
+							<div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;">
+							</div>
+						</div>
+
+						<input type="submit" id="posting_submit" value="완료">
 					</div>
-					
-					<input type="submit" id="posting_submit" value="완료">
-				</div>
 			</form>
-			
-		</div> <!-- 컨테이너 끝 --> 
-	</div> <!--wrap의 끝부분-->
+
+		</div> <!-- 컨테이너 끝 -->
+	</div>
+	<!--wrap의 끝부분-->
 
 </body>
 

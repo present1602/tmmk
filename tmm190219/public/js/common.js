@@ -10,6 +10,16 @@ var s3Url = "https://tm-20201025.s3.ap-northeast-2.amazonaws.com";
 
 $(function(){
     
+    var logoutTab = document.getElementById("logoutTab");
+    if(logoutTab){
+        logoutTab.addEventListener("click", function(){
+            alert("로그아웃하였습니다");
+            localStorage.clear();
+            document.cookie = 'access_token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            location.href= "/"
+        });
+    }
+
     localStorage.setItem("s3Url", s3Url);
 
     var getUrl = "url('" + s3Url + "/upload/" + userpic + "') no-repeat center center"

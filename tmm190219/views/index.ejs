@@ -27,14 +27,6 @@ $(function(){
 	for(var i=0; i < $tableLen-1 ;i++){
 		$($reqTable[i]).css("border-bottom", "1px solid rgba(232,232,232,1)")
     };
-    
-    var logoutTab = document.getElementById("logoutTab");
-    logoutTab.addEventListener("click", function(){
-        alert("로그아웃하였습니다");
-        localStorage.clear();
-        document.cookie = 'access_token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-        location.href= "/"
-    });
 })
 </script>
 
