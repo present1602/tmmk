@@ -2,43 +2,47 @@
         <% showList(posts) %>  
     </ul>
 <% function showList(posts){ 
-    for (var i = 0; i < posts.length; i++) {
-        var postObjId = posts[i]._doc._id;
-        var curTitle = posts[i]._doc.title;
-        var curContents = posts[i]._doc.contents;
-        var pay = posts[i]._doc.pay;
-        var userName = posts[i]._doc.writer.name;
-        var category = posts[i]._doc.category;
-        var userPicFilename = posts[i]._doc.writer.pic.filename;
-        var userGender = posts[i]._doc.writer.gender;
-        var addr = posts[i]._doc.address.addr;
-        var helperGender = posts[i]._doc.helper_gender;
-    %>
-        <li>
-            <div class="user_info">
-                <p class="user_pic_postlist" style="width:48px;height:48px; margin:2px; 
-                position: relative; margin-bottom: 10px;
-                display:inline-block; position: relative; border-radius:30px;
-                background:url('https://tm-20201025.s3.ap-northeast-2.amazonaws.com/upload/<%=userPicFilename %>') no-repeat center center; background-size:cover">
-                </p>
-                <p class="user_name" style="font-size:11px"><%=userName %></p>
-            </div>
-            
-            <div class="content">
-                <a href="/viewpost/<%=postObjId %>">
-                    <p class="title"><%=curTitle %></p>
-                    <p class="text"><%= curContents %></p>
-                    <div class="info">
-                        <p class="gender">성별 : <%= helperGender %></p>
-                        <span class="category"><%= category %></span>
-                        <span class="pay"><%= pay %>원</span>
-                        <p class="req_location"><%= addr %></p>                        
-                    </div>
-                </a>
+    if( posts.length > 0 ) {
+        for (var i = 0; i < posts.length; i++) {
+            var postObjId = posts[i]._doc._id;
+            var curTitle = posts[i]._doc.title;
+            var curContents = posts[i]._doc.contents;
+            var pay = posts[i]._doc.pay;
+            var userName = posts[i]._doc.writer.name;
+            var category = posts[i]._doc.category;
+            var userPicFilename = posts[i]._doc.writer.pic.filename;
+            var userGender = posts[i]._doc.writer.gender;
+            var addr = posts[i]._doc.address.addr;
+            var helperGender = posts[i]._doc.helper_gender;
+        %>
+            <li>
+                <div class="user_info">
+                    <p class="user_pic_postlist" style="width:48px;height:48px; margin:2px; 
+                    position: relative; margin-bottom: 10px;
+                    display:inline-block; position: relative; border-radius:30px;
+                    background:url('https://tm-20201025.s3.ap-northeast-2.amazonaws.com/upload/<%=userPicFilename %>') no-repeat center center; background-size:cover">
+                    </p>
+                    <p class="user_name" style="font-size:11px"><%=userName %></p>
+                </div>
+                
+                <div class="content">
+                    <a href="/viewpost/<%=postObjId %>">
+                        <p class="title"><%=curTitle %></p>
+                        <p class="text"><%= curContents %></p>
+                        <div class="info">
+                            <p class="gender">성별 : <%= helperGender %></p>
+                            <span class="category"><%= category %></span>
+                            <span class="pay"><%= pay %>원</span>
+                            <p class="req_location"><%= addr %></p>                        
+                        </div>
+                    </a>
 
-            </div>
-        </li>
-        <div class="clear"></div>
+                </div>
+            </li>
+            <div class="clear"></div>
+        <% } %>
+    <% } else { %>
+       <h2 style="margin:30px 0; text-align:center;">등록된 포스팅이 없습니다</h2>
     <% } %>
 <% } %> 
         
