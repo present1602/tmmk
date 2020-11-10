@@ -65,7 +65,15 @@ $(function(){
             url:'/mapsearch'
             ,method:'get'
             ,success:function(data){
-                showMapForSearch(data)
+                if(data.length> 0){
+                    showMapForSearch(data)
+                }
+                else{
+                    var infoBox = "<div id='info_message_box'>"
+                    infoBox +=  "<h2 style='margin:30px 0; text-align:center'>위치정보가 등록된 포스팅이 없습니다</h2>";
+                    infoBox += "</div>";
+                    document.getElementById('main_section').innerHTML = infoBox;
+                }
                 // $("#main_section").html(data);            
             }
             ,error:function(err){

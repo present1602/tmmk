@@ -24,8 +24,11 @@
         }
     %>
     <%  function showList(posts){ 
+          if( posts.length > 0 ) {
             var curLat = coords[0];
             var curLng = coords[1]; 
+
+            
             for (var i = 0; i < posts.length; i++) {
                 var postObjId = posts[i]._doc._id;
                 var curTitle = posts[i]._doc.title;
@@ -69,6 +72,9 @@
         </li>
         <div class="clear"></div>
         <% } %>
-    <% } %> 
+    <% } else { %>
+    <h2 style="margin:30px 0; text-align:center;">주변의 등록된 포스팅이 없습니다</h2>
+    <% } %>
+<% } %>
                 
         
