@@ -7,24 +7,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" type="text/css" href="/css/common.css">
-    <!-- <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <!-- <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script> -->
+    <script src="/js/lib/jquery-1.11.1.min.js"></script>
+    <script src="/js/lib/socket-2.0.4.io.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script> -->
     <link href="/css/common.css" rel="stylesheet" />
 </head>
-<script>
-const wprotocol = window.location.protocol;
-var jqscript = document.createElement("script");
-jqscript.type = 'text/javascript';
-											
-if(wprotocol === 'http:'){
-		jqscript.src="http://code.jquery.com/jquery-1.11.1.min.js";
-		document.head.appendChild(jqscript);
-}else if(wprotocol === 'https:'){
-		jqscript.src="https://code.jquery.com/jquery-1.11.1.min.js"
-		document.head.appendChild(jqscript);
-}
-
-</script>
 
 <body>
     <style>
@@ -139,6 +128,9 @@ if(wprotocol === 'http:'){
         $(function () {
             socket = io.connect();
 
+            var scrollBox = document.getElementById("chatbox");
+            scrollBox.scrollTop = scrollBox.scrollHeight;
+
             var chatOid = $("#oid_hidden").val();
             var username = username || localStorage.getItem('username');
             var userId = userId || localStorage.getItem('userid');
@@ -163,7 +155,9 @@ if(wprotocol === 'http:'){
                     + "</div></li>"
 
                 console.log(JSON.stringify(printMessage));
-                $("#chat").append(printMessage)
+                $("#chat").append(printMessage);
+                var scrollBox = document.getElementById("chatbox");
+                scrollBox.scrollTop = scrollBox.scrollHeight;
             });
 
 
@@ -200,6 +194,9 @@ if(wprotocol === 'http:'){
                 printMessage += "</li>";
                 console.log("printMessage : " + printMessage);
                 $("#chat").append(printMessage);
+
+                var scrollBox = document.getElementById("chatbox");
+                scrollBox.scrollTop = scrollBox.scrollHeight;
 
             });
         });

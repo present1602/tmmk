@@ -5,26 +5,11 @@
 <meta charset="utf-8" />
 <link href="/css/common.css" rel="stylesheet" /> 
 
-<title>Untitled Document</title>
+<title>Time market</title>
 
-<!-- <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
-
+<script src="/js/lib/jquery-1.11.1.min.js"></script>
 <script src="/js/common.js"></script>
 
-<script>
-const wprotocol = window.location.protocol;
-var jqscript = document.createElement("script");
-jqscript.type = 'text/javascript';
-											
-if(wprotocol === 'http:'){
-		jqscript.src="http://code.jquery.com/jquery-1.11.1.min.js";
-		document.head.appendChild(jqscript);
-}else if(wprotocol === 'https:'){
-		jqscript.src="https://code.jquery.com/jquery-1.11.1.min.js"
-		document.head.appendChild(jqscript);
-}
-</script>
 </head>
 <body>
 <div class="wrap">
