@@ -86,7 +86,8 @@ var signup = (req, res) => {
         }
         
         user.save();
-        res.redirect('login')
+        res.send('<script type="text/javascript">alert("회원가입이 완료되었습니다"); document.location = "/login" </script>');
+        // res.redirect('/login')
         
    } else {  // 데이터베이스 객체가 초기화되지 않은 경우 실패 응답 전송
        res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
