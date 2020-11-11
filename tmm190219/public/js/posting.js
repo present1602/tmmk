@@ -43,11 +43,18 @@ function showMapInPosting(){
 			geocoder.coord2Address(lng, lat, function(result, status){
 				if (status === daum.maps.services.Status.OK) {                         
 					var curPosAddr = result[0].address.address_name;
-					$("#addr").html(curPosAddr);
+					var addr = document.getElementById("addr");
+					if(curPosAddr){
+						addr.value = curPosAddr;
+						$("#latitude").val(lat);
+						$("#longitude").val(lng);
+					}
 				}
 			});
 			infowindow = new daum.maps.InfoWindow({zindex:1}); // 클릭한 위치에 대한 주소를 표시할 인포윈도우입니다
 			// clickMap(marker, geocoder);
+
+
 			daum.maps.event.addListener(map, 'click', function(mouseEvent) {
 				console.log('mouseEvent.latLng.getLat() : ' + mouseEvent.latLng.getLat());
 				var coords = mouseEvent.latLng;
