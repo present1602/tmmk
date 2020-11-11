@@ -1,12 +1,21 @@
 $(function(){
     var labels = $('#filter_form label');
     labels.click(function(e){
-        var tgClass = this.className    
-        var lbls = document.querySelectorAll('label.'+tgClass);
-        lbls.forEach(function(lbl){
-            lbl.classList.remove('active')
-        })
-        this.classList.add('active')
+        var tgClass = this.className   
+        
+        if(this.classList.contains('active')){
+            this.classList.remove('active');
+            var tgId = $(this).attr('for');
+            var tgInput = document.getElementById(tgId)
+            tgInput.checked = false;
+        }
+        else{
+            var lbls = document.querySelectorAll('label.'+tgClass);
+            lbls.forEach(function(lbl){
+                lbl.classList.remove('active')
+            })
+            this.classList.add('active')
+        }
     })
 
     $("#filter_submit").click(function(){
