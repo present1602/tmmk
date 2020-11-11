@@ -2,6 +2,10 @@ label{font-size:14px;padding:2px; margin:5px;}
 .posting_title{font-size:16px; color:rgba(255,97,0,1); margin:5px 12px 15px;     
 	font-weight: bold; font-family: 'gulim';
 }
+
+#filter_layer{
+	height:100vh;
+}
 #form_box{margin:10px;}
 #form_box li{display:inline-block; margin:10px;}
 
