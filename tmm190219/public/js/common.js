@@ -6,6 +6,14 @@ var useremail = localStorage.getItem('useremail');
 var userpic = localStorage.getItem('userpic');
 var userOid = localStorage.getItem('useroid');
 
+/* 
+교대역
+latitude = 37.491943159;        
+longitude = 127.01311698;
+*/
+var defaultLat = "37.491943159";
+var defaultLng = "127.01311698";
+
 var s3Url = "https://tm-20201025.s3.ap-northeast-2.amazonaws.com";
 
 $(function(){
@@ -58,16 +66,25 @@ $(function(){
     }); 
 
     if(navigator.geolocation){
-        console.log('navi geo 접근 성공')
+        console.log('if (navigator.geolocation) block exec')
         navigator.geolocation.getCurrentPosition(function(pos){
+
             curLat = pos.coords.latitude;
             curLng = pos.coords.longitude;
             console.log('getCurPos 성공, lat : ' + curLat + ', lng : ' + curLng)
             console.log('accuracy : ' + pos.coords.accuracy);
-        })
+            // 33~38 && 125.9~130
+            if( !(curLat > 33 && curLat < 38 && curLng >126 && curLng < 130) ){
+                console.log("설정된 좌표 범위를 벗어났습니다");
+                curLat = defaultLat;        
+                curLng = defaultLng;
+            }
+        }, 
+        getCurrentPositionError)
     }else{
-        curLat = 37.4517447;        
-        curLng = 126.6548974;
+        console.log("navigator.geolocation 접근 실패 - 좌표 임의 설정")
+        curLat = defaultLat;     
+        curLng = defaultLng;
     }
 
     $("#map_search").click(function(){
@@ -96,16 +113,20 @@ $(function(){
         if(curLat&&curLng){
             getPostsNearby()
         }else if(navigator.geolocation){
-            console.log('navi geo 접근 성공')
+            
             navigator.geolocation.getCurrentPosition(function(pos){
+                console.log('navi geo 접근 성공')
                 curLat = pos.coords.latitude;
                 curLng = pos.coords.longitude;
                 console.log('getCurPos 성공, lat : ' + curLat + ', lng : ' + curLng)
                 console.log('accuracy : ' + pos.coords.accuracy);
-            })
+            }, 
+            getCurrentPositionError
+            )
         }else{
-            alert('현재 위치를 가져올 수 없습니다');
+            alert('navigatator.geolocation null error');
         }
+
     })
 });
 
@@ -124,7 +145,7 @@ function showMapForSearch(geoData){
 
     var mapContainer = document.getElementById("map_for_search"), // 지도를 표시할 div 
     mapOption = { 
-        center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+        center: new daum.maps.LatLng(curLat, curLng), // 지도의 중심좌표
         level: 5 // 지도의 확대 레벨
     };
 
@@ -140,11 +161,12 @@ function showMapForSearch(geoData){
     })
     map.setBounds(bounds);  //?
     $("#map_search_button").click(()=>{
+        // debugger;
         var mapBounds = map.getBounds();
-        var swLat = mapBounds.ka;
-        var swLng = mapBounds.da;
-        var neLat = mapBounds.ja;
-        var neLng = mapBounds.ia;
+        var swLat = mapBounds.ka || mapBounds.qa;
+        var swLng = mapBounds.da || mapBounds.oa;
+        var neLat = mapBounds.ja || mapBounds.pa;
+        var neLng = mapBounds.ia || mapBounds.ha;
         $.ajax({
             url:'/mapsearch'
             ,method:'post'
@@ -152,7 +174,9 @@ function showMapForSearch(geoData){
             ,success:function(data){
                 $("#main_section").html(data);
             },error:function(err){
-                alert(err);
+                alert("검색 중 에러 : " + err.message);
+                console.dir(err.message);
+
             }
         })
     })
@@ -174,4 +198,11 @@ function getPostsNearby(){
             console.log(err);
         }
     });
+}
+
+function getCurrentPositionError(err){
+    console.warn(`ERROR(${err.code}): ${err.message}`);
+    console.log(`navigatator.geolocation getCurrentPosition error message : ${err.message}`);
+    curLat = defaultLat;        
+    curLng = defaultLng;
 }
