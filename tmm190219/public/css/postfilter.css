@@ -1,5 +1,6 @@
 /* 상세검색 레이어 */
 #filter_layer{ position:absolute; top:0;left:0; width:100%; display:none;  
+    height:100vh;
     z-index:111111; background-color:#fff;
 }
 #filter_container{background:#fff; 
