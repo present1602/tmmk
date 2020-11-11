@@ -45,6 +45,7 @@
 		</header>
 
 
+
 		<div class="container">
 			<p class="posting_title">헬퍼요청</p>
 			<form action="/posting" method="post" id="posting_form">
@@ -54,8 +55,7 @@
 					<p class="search_option_title">제목</p>
 					<input type="text" name="req_title" id="req_title">
 					<p class="search_option_title">내용</p>
-					<textarea rows="3" cols="50" style="overflow:scroll" name="content" id="content">
-					</textarea>
+					<textarea cols="50" style="resize:none; overflow:scroll" name="content" id="content"></textarea>
 					<div>
 						<p class="search_option_title">일당</p>
 						<input type="text" name="pay" value="0">
@@ -63,7 +63,7 @@
 						<p class="search_option_title">헬퍼성별</p>
 						<ul>
 							<li>
-								<input type="radio" name="helper_gender" value="무관" id="no_choice">
+								<input type="radio" name="helper_gender" value="무관" id="no_choice" checked='true'>
 								<label for="no_choice">무관</label>
 							</li>
 							<li>
