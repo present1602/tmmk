@@ -1,19 +1,22 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta name="viewport" content="width=device-width">
-<meta charset="utf-8" />
-<link rel="stylesheet" type="text/css" href="css/common.css">
-<link rel="stylesheet" type="text/css" href="css/login.css">
 
-<title>Time market</title>
-<script src="/js/lib/jquery-1.11.1.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<head>
+	<meta name="viewport" content="width=device-width">
+	<meta charset="utf-8" />
+	<link rel="stylesheet" type="text/css" href="css/common.css">
+	<link rel="stylesheet" type="text/css" href="css/login.css">
+
+	<title>Time market</title>
+	<script src="/js/lib/jquery-1.11.1.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 </head>
+
 <body>
 
-<script>
+	<script>
 // $(function(){
 // 	var inp = document.getElementsByTagName('input');
 // 	for(var i in inp){
@@ -25,14 +28,14 @@
 // 	}
 // })
 
-</script>
+	</script>
 
 	<div id="wrap">
-        <form method="post" action="/signup" class="joinForm" enctype="multipart/form-data">
+		<form method="post" action="/signup" class="joinForm" enctype="multipart/form-data">
 			<div id="joinTitle">
-                <p>TIME MARKET</p>
+				<p>TIME MARKET</p>
 			</div>
-            <div id="joinContent">
+			<div id="joinContent">
 				<table class="table" id="Table1">
 					<tr>
 						<td><input type="text" name="uid" id="uid" placeholder="아이디"></td>
@@ -40,21 +43,21 @@
 					<tr>
 						<td><input type="password" name="upw" id="upw" placeholder="비밀번호"></td>
 					</tr>
-					
+
 				</table>
 				<table class="table" id="Table2">
 					<tr>
-						<td><input type="text" name="uname" id="uname" placeholder="이름"/></td>
+						<td><input type="text" name="uname" id="uname" placeholder="이름" /></td>
 					</tr>
 					<tr>
-						<td><input type="text" name="ubirth" id="ubirth" placeholder="생년월일"/></td>
+						<td><input type="text" name="ubirth" id="ubirth" placeholder="생년월일" /></td>
 					</tr>
 				</table>
-				
+
 				<p>
-					<input type = "radio" name ="ugender" id="male" value = "남">
-					<label for="male" class="gender_opt">남자</label> 
-					<input type = "radio" name ="ugender" id="female" value = "여">
+					<input type="radio" name="ugender" id="male" value="남">
+					<label for="male" class="gender_opt">남자</label>
+					<input type="radio" name="ugender" id="female" value="여">
 					<label for="female" class="gender_opt">여자</label>
 				</p>
 
@@ -80,23 +83,24 @@
 			</div>
 		</form>
 	</div>
-<script>
+	<script>
 
-$("#profile_image").change(function(e) {
-    readURL(this)
-});
+		$("#profile_image").change(function (e) {
+			readURL(this)
+		});
 
-function readURL(input) {
-	var path = input.value;
-	
-	if (input.files && input.files[0]) {
-		var reader = new FileReader();
-		reader.onload = function(e) {
-			$('#imgPreview').attr('src', e.target.result);
+		function readURL(input) {
+			var path = input.value;
+
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					$('#imgPreview').attr('src', e.target.result);
+				}
+				reader.readAsDataURL(input.files[0]);
+			}
 		}
-		reader.readAsDataURL(input.files[0]);
-	}
-}
-</script>
+	</script>
 </body>
+
 </html>
