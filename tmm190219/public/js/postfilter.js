@@ -8,6 +8,7 @@ $(function(){
             var tgId = $(this).attr('for');
             var tgInput = document.getElementById(tgId)
             tgInput.checked = false;
+            return false;
         }
         else{
             var lbls = document.querySelectorAll('label.'+tgClass);
