@@ -83,6 +83,10 @@ var signup = (req, res) => {
             user.pic.contentType= paramPic.mimetype;
             user.pic.path = paramPic.location;
             user.pic.filename = getFilename;
+        }else{
+            console.log("paramPic else")
+            res.send('<script type="text/javascript">alert("프로필사진을 첨부해주세요"); history.back() </script>');
+            return;
         }
         
         user.save();
