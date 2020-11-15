@@ -320,7 +320,7 @@ app.get('/chatlist', function(req, res){
             console.log("chatId : " + chatId + ", text : " + text + ", created : " + created + " ,sender : " + sender + " ,senderPic : " + senderPic);
             lastMsg ={"chatId":chatId, "text":text, "created":process_created, "sender":sender, "senderPic":senderPic}
             
-            lastMsgs.push(lastMsg);
+            lastMsgs.unshift(lastMsg);
         });
         res.render('chatlist', {data:lastMsgs}, function(err, html){
             console.log('chatlist 렌더링');
