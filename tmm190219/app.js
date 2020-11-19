@@ -24,6 +24,12 @@ const { v4: uuidv4 } = require('uuid');
 
 var mongoose = require('mongoose');
 
+console.log("process.env : ", process.env);
+console.log("process.env.TZ : ", process.env.TZ);
+
+process.env.TZ = 'Asia/Seoul'
+console.log("process.env2 : ", process.env);
+console.log("process.env2TZ : ", process.env.TZ);
 
 const configData = require('./config');
 // console.log("configData : ", configData)
